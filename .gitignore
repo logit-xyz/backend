@@ -1,0 +1,7 @@
+.env
+.vscode
+bin
+logs
+gin.log
+insights.txt
+node_modules
