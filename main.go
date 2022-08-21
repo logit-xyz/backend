@@ -37,12 +37,6 @@ var (
 var sessionStore = map[string]utils.AuthResponse{}
 
 func init() {
-	// load .env file
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
 	// check debug
 	debug, _ := strconv.ParseBool(os.Getenv("DEBUG"))
 
