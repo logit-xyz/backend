@@ -20,6 +20,8 @@ import (
 	"github.com/gocolly/colly"
 	"github.com/google/uuid"
 
+	// "github.com/joho/godotenv"
+
 	"logit/utils"
 )
 
@@ -36,6 +38,8 @@ var (
 var sessionStore = map[string]utils.AuthResponse{}
 
 func init() {
+	// godotenv.Load()
+
 	// check debug
 	debug, _ := strconv.ParseBool(os.Getenv("DEBUG"))
 
@@ -205,12 +209,25 @@ func main() {
 				// find the @type == recipe
 				for _, schema := range json {
 					if schemaType, exists := schema["@type"]; exists {
-						if schemaType, ok := schemaType.(string); ok {
+						switch schemaType := schemaType.(type) {
+						case string:
 							schemaType = strings.ToLower(schemaType)
 							if schemaType == "recipe" {
 								rawRecipe = &schema
 								recipeId = id
 							}
+						case []interface{}:
+							for _, val := range schemaType {
+								if val, ok := val.(string); ok {
+									val = strings.ToLower(val)
+									if val == "recipe" {
+										rawRecipe = &schema
+										recipeId = id
+									}
+								}
+							}
+						default:
+							log.Printf("error: encountered unexpected type %T", schemaType)
 						}
 					}
 				}
@@ -220,12 +237,25 @@ func main() {
 				for _, schema := range json {
 					if schema, ok := schema.(map[string]interface{}); ok {
 						if schemaType, exists := schema["@type"]; exists {
-							if schemaType, ok := schemaType.(string); ok {
+							switch schemaType := schemaType.(type) {
+							case string:
 								schemaType = strings.ToLower(schemaType)
 								if schemaType == "recipe" {
 									rawRecipe = &schema
 									recipeId = id
 								}
+							case []interface{}:
+								for _, val := range schemaType {
+									if val, ok := val.(string); ok {
+										val = strings.ToLower(val)
+										if val == "recipe" {
+											rawRecipe = &schema
+											recipeId = id
+										}
+									}
+								}
+							default:
+								log.Printf("error: encountered unexpected type %T", schemaType)
 							}
 						}
 					}
@@ -241,13 +271,25 @@ func main() {
 							if schema, ok := schema.(map[string]interface{}); ok {
 								// check if @type prop exists
 								if schemaType, exists := schema["@type"]; exists {
-									// checks if the schema type is a string
-									if schemaType, ok := schemaType.(string); ok {
+									switch schemaType := schemaType.(type) {
+									case string:
 										schemaType = strings.ToLower(schemaType)
 										if schemaType == "recipe" {
 											rawRecipe = &schema
 											recipeId = id
 										}
+									case []interface{}:
+										for _, val := range schemaType {
+											if val, ok := val.(string); ok {
+												val = strings.ToLower(val)
+												if val == "recipe" {
+													rawRecipe = &schema
+													recipeId = id
+												}
+											}
+										}
+									default:
+										log.Printf("error: encountered unexpected type %T", schemaType)
 									}
 								}
 							}
@@ -257,16 +299,29 @@ func main() {
 
 				// check if the json is actually the recipe structure
 				if schemaType, exists := json["@type"]; exists {
-					if schemaType, ok := schemaType.(string); ok {
+					switch schemaType := schemaType.(type) {
+					case string:
 						schemaType = strings.ToLower(schemaType)
 						if schemaType == "recipe" {
 							rawRecipe = &json
 							recipeId = id
 						}
+					case []interface{}:
+						for _, val := range schemaType {
+							if val, ok := val.(string); ok {
+								val = strings.ToLower(val)
+								if val == "recipe" {
+									rawRecipe = &json
+									recipeId = id
+								}
+							}
+						}
+					default:
+						log.Printf("error: encountered unexpected type %T", schemaType)
 					}
 				}
 			default:
-				log.Printf("error: encountered expected type %T", json)
+				log.Printf("error: encountered unexpected type %T", json)
 			}
 		})
 
