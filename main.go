@@ -19,7 +19,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gocolly/colly"
 	"github.com/google/uuid"
-	"github.com/joho/godotenv"
 
 	"logit/utils"
 )
