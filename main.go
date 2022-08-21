@@ -62,7 +62,7 @@ func main() {
 
 	frontendUrl := os.Getenv("FRONTEND_URL")
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{frontendUrl},
+		AllowOrigins:     []string{frontendUrl, "http://localhost"},
 		AllowMethods:     []string{"*"},
 		AllowHeaders:     []string{"*"},
 		AllowCredentials: true,
