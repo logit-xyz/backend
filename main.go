@@ -532,8 +532,6 @@ func main() {
 		params.Set("sugars", utils.ConvertFloat(body.Nutrition.Sugar, 2))
 		params.Set("protein", utils.ConvertFloat(body.Nutrition.Protein, 2))
 
-		fmt.Println(params.Encode())
-
 		logEndpoint := fmt.Sprintf(
 			"%s/1/user/%s/foods.json",
 			fitbitApiUrl,
@@ -581,8 +579,7 @@ func main() {
 			// send request
 			resp, err := client.Do(req)
 			if err != nil {
-				log.Printf("error: %+v", err)
-				ctx.AbortWithError(500, err)
+				ctx.JSON(500, fmt.Sprintf(`{"message": %+v}`, err))
 			}
 
 			// read response
@@ -591,6 +588,7 @@ func main() {
 
 			var user utils.User
 			json.Unmarshal(responseBody, &user)
+			user.Profile.UserId = authConf.AccessToken
 
 			ctx.JSON(200, user.Profile)
 		} else {
