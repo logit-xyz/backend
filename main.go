@@ -36,8 +36,13 @@ var (
 )
 
 var sessionStore = map[string]utils.AuthResponse{}
+var uagents = []string{}
 
 func init() {
+	// load uagents
+	utils.LoadUagents(&uagents)
+
+	// load environment variables
 	godotenv.Load()
 
 	// check debug
@@ -157,16 +162,7 @@ func main() {
 	// calculates nutrition
 	r.GET("/calculate", func(ctx *gin.Context) {
 		// spoof user agent
-		uagent, err := utils.Spoof()
-		if err != nil {
-			ctx.AbortWithStatusJSON(
-				http.StatusInternalServerError,
-				map[string]interface{}{
-					"message": "Could not spoof User-Agent.",
-					"data":    nil,
-				},
-			)
-		}
+		uagent := utils.Spoof(uagents)
 
 		log.Printf("uagent: %s\n", uagent)
 		var rawRecipe *map[string]interface{}

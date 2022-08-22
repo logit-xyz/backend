@@ -28,28 +28,33 @@ type Recipe struct {
 	Thing
 }
 
-// Randomly pick a User-Agent from a
-func Spoof() (string, error) {
-	uagent := ""
+func LoadUagents(uagents *[]string) error {
 	//  open file
 	f, err := os.Open("./utils/uagents.txt")
 	if err != nil {
-		return uagent, err
+		return err
 	}
 
 	// create a buffer reader
 	scanner := bufio.NewScanner(f)
 	var n int = 10000
-	uagentList := make([]string, n)
 	for i := 0; i < n; i++ {
 		if ok := scanner.Scan(); ok {
-			uagentList = append(uagentList, scanner.Text())
+			*uagents = append(*uagents, scanner.Text())
 		}
 	}
 
-	log.Printf("size: %d", len(uagentList))
-	uagent = uagentList[rand.Intn(n)]
-	return uagent, nil
+	return nil
+}
+
+// Randomly pick a User-Agent from a
+func Spoof(uagents []string) string {
+	uagent := ""
+	var n int = len(uagents)
+
+	log.Printf("size: %d", n)
+	uagent = uagents[rand.Intn(n)]
+	return uagent
 }
 
 func GetUnit(key string) string {
