@@ -384,7 +384,7 @@ func main() {
 			case string:
 				recipe.Image = imgObj
 			default:
-				log.Printf("encountered type %T", imgObj)
+				log.Printf("url: encountered type %T", imgObj)
 			}
 		case map[string]interface{}:
 			// grap url and set it
@@ -392,7 +392,7 @@ func main() {
 				recipe.Image = url
 			}
 		default:
-			log.Printf("encountered type %T", img)
+			log.Printf("img: encountered type %T", img)
 		}
 
 		// change main entity
