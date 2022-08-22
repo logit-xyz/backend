@@ -2,6 +2,7 @@ package utils
 
 import (
 	"bufio"
+	"log"
 	"math/rand"
 	"os"
 	"strings"
@@ -42,6 +43,7 @@ func Spoof() (string, error) {
 	uagentList := make([]string, n)
 	for i := 0; i < n; i++ {
 		if ok := scanner.Scan(); ok {
+			log.Printf("list: %+v", uagentList)
 			uagentList = append(uagentList, scanner.Text())
 		}
 	}
