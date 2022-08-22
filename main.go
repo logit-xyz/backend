@@ -163,6 +163,7 @@ func main() {
 	r.GET("/calculate", func(ctx *gin.Context) {
 		// spoof user agent
 		uagent := utils.Spoof(uagents)
+		fmt.Printf("user agent: %s", uagent)
 
 		var rawRecipe *map[string]interface{}
 		var recipeId string = ""
@@ -171,6 +172,9 @@ func main() {
 		c := colly.NewCollector(
 			colly.UserAgent(uagent),
 		)
+		c.Limit(&colly.LimitRule{
+			RandomDelay: 1 * time.Second,
+		})
 
 		// when it makes the request
 		c.OnRequest(func(r *colly.Request) {
@@ -183,6 +187,7 @@ func main() {
 		})
 
 		c.OnError(func(r *colly.Response, err error) {
+			log.Printf("response: %+v", r)
 			log.Printf("scraping error: %+v", err)
 		})
 
