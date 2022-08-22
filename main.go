@@ -168,6 +168,7 @@ func main() {
 			)
 		}
 
+		log.Println(uagent)
 		var rawRecipe *map[string]interface{}
 		var recipeId string = ""
 
@@ -659,6 +660,7 @@ func main() {
 			})
 		}
 	})
+
 	// start the server
 	port := fmt.Sprintf(":%s", os.Getenv("PORT"))
 	r.Run(port)
