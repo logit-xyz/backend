@@ -191,6 +191,7 @@ func main() {
 			// parse html into interface
 			var ldJSON interface{}
 			json.Unmarshal([]byte(h.Text), &ldJSON)
+			log.Println(ldJSON)
 
 			// this if for logging purposes
 			// in case something fails, I can always refer to the recipe
@@ -205,7 +206,7 @@ func main() {
 			// on the type of the underlying interface
 			switch json := ldJSON.(type) {
 			case []map[string]interface{}:
-				fmt.Println("path 1")
+				log.Println("path 1")
 				// it's a list of schemas
 				// find the @type == recipe
 				for _, schema := range json {
@@ -233,7 +234,7 @@ func main() {
 					}
 				}
 			case []interface{}:
-				fmt.Println("path 2")
+				log.Println("path 2")
 				// it's a list of schemas
 				// find the @type == recipe
 				for _, schema := range json {
@@ -263,7 +264,7 @@ func main() {
 					}
 				}
 			case map[string]interface{}:
-				fmt.Println("path 3")
+				log.Println("path 3")
 				// does @graph prop exist?
 				if nodeArray, exists := json["@graph"]; exists {
 					// is it a []interface{}
