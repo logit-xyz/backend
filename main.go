@@ -168,7 +168,7 @@ func main() {
 			)
 		}
 
-		log.Println(uagent)
+		log.Printf("uagent: %s\n", uagent)
 		var rawRecipe *map[string]interface{}
 		var recipeId string = ""
 
