@@ -338,6 +338,8 @@ func main() {
 			default:
 				log.Printf("error: encountered unexpected type %T", json)
 			}
+
+			log.Println("yo done")
 		})
 
 		link := ctx.Query("link")
