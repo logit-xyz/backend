@@ -164,7 +164,6 @@ func main() {
 		// spoof user agent
 		uagent := utils.Spoof(uagents)
 
-		log.Printf("uagent: %s\n", uagent)
 		var rawRecipe *map[string]interface{}
 		var recipeId string = ""
 
@@ -183,13 +182,15 @@ func main() {
 			log.Printf("Finished scraping %s", r.Request.URL)
 		})
 
+		c.OnError(func(r *colly.Response, err error) {
+			log.Printf("scraping error: %+v", err)
+		})
+
 		// grab the application/ld+json script data
 		c.OnHTML("script[type='application/ld+json']", func(h *colly.HTMLElement) {
 			// parse html into interface
 			var ldJSON interface{}
 			json.Unmarshal([]byte(h.Text), &ldJSON)
-
-			log.Println(ldJSON)
 
 			// this if for logging purposes
 			// in case something fails, I can always refer to the recipe

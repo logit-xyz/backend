@@ -2,7 +2,6 @@ package utils
 
 import (
 	"bufio"
-	"log"
 	"math/rand"
 	"os"
 	"strings"
@@ -52,7 +51,6 @@ func Spoof(uagents []string) string {
 	uagent := ""
 	var n int = len(uagents)
 
-	log.Printf("size: %d", n)
 	uagent = uagents[rand.Intn(n)]
 	return uagent
 }
