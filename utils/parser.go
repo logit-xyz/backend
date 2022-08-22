@@ -43,11 +43,11 @@ func Spoof() (string, error) {
 	uagentList := make([]string, n)
 	for i := 0; i < n; i++ {
 		if ok := scanner.Scan(); ok {
-			log.Printf("list: %+v", uagentList)
 			uagentList = append(uagentList, scanner.Text())
 		}
 	}
 
+	log.Printf("size: %d", len(uagentList))
 	uagent = uagentList[rand.Intn(n)]
 	return uagent, nil
 }
