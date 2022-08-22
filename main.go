@@ -53,7 +53,7 @@ func init() {
 
 		// Essentially, makes gin route all console output
 		// to a file
-		gin.DefaultWriter = io.MultiWriter(f)
+		gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
 		log.SetOutput(gin.DefaultWriter)
 	}
 }
@@ -191,6 +191,7 @@ func main() {
 			// parse html into interface
 			var ldJSON interface{}
 			json.Unmarshal([]byte(h.Text), &ldJSON)
+
 			log.Println(ldJSON)
 
 			// this if for logging purposes
@@ -267,22 +268,29 @@ func main() {
 				log.Println("path 3")
 				// does @graph prop exist?
 				if nodeArray, exists := json["@graph"]; exists {
+					log.Println("path 4")
 					// is it a []interface{}
 					if nodeArray, ok := nodeArray.([]interface{}); ok {
+						log.Println("path 5")
 						// loop through it
 						for _, schema := range nodeArray {
+							log.Println("path 6")
 							// check if schema is map[string]interface{}
 							if schema, ok := schema.(map[string]interface{}); ok {
+								log.Println("path 7")
 								// check if @type prop exists
 								if schemaType, exists := schema["@type"]; exists {
+									log.Println("path 8")
 									switch schemaType := schemaType.(type) {
 									case string:
+										log.Println("path 9")
 										schemaType = strings.ToLower(schemaType)
 										if schemaType == "recipe" {
 											rawRecipe = &schema
 											recipeId = id
 										}
 									case []interface{}:
+										log.Println("path 10")
 										for _, val := range schemaType {
 											if val, ok := val.(string); ok {
 												val = strings.ToLower(val)
@@ -303,14 +311,17 @@ func main() {
 
 				// check if the json is actually the recipe structure
 				if schemaType, exists := json["@type"]; exists {
+					log.Println("path 7")
 					switch schemaType := schemaType.(type) {
 					case string:
+						log.Println("path 8")
 						schemaType = strings.ToLower(schemaType)
 						if schemaType == "recipe" {
 							rawRecipe = &json
 							recipeId = id
 						}
 					case []interface{}:
+						log.Println("path 9")
 						for _, val := range schemaType {
 							if val, ok := val.(string); ok {
 								val = strings.ToLower(val)
