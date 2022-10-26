@@ -20,7 +20,7 @@ import (
 	"github.com/gocolly/colly"
 	"github.com/google/uuid"
 
-	// "github.com/joho/godotenv"
+	"github.com/joho/godotenv"
 
 	"logit/utils"
 )
@@ -43,7 +43,7 @@ func init() {
 	utils.LoadUagents(&uagents)
 
 	// load environment variables
-	// godotenv.Load()
+	godotenv.Load()
 
 	// check debug
 	debug, _ := strconv.ParseBool(os.Getenv("DEBUG"))
