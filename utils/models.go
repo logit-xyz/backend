@@ -60,6 +60,7 @@ type User struct {
 }
 
 type UserProfile struct {
+	EncodedId string `json:"encodedId"`
 	FirstName string `json:"firstName"`
 	Avatar    string `json:"avatar"`
 	Avatar150 string `json:"avatar150"`

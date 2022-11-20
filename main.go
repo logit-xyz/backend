@@ -71,7 +71,7 @@ func main() {
 
 	frontendUrl := os.Getenv("FRONTEND_URL")
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{frontendUrl, "http://localhost"},
+        AllowOrigins:     []string{frontendUrl, "https://logit-xyz.netlify.app"},
 		AllowMethods:     []string{"*"},
 		AllowHeaders:     []string{"*"},
 		AllowCredentials: true,
@@ -410,6 +410,11 @@ func main() {
 		}
 
 		ctx.JSON(http.StatusAccepted, recipe)
+	})
+
+	// calculates nutrition (based on ingredients)
+	r.GET("/build", func(ctx *gin.Context) {
+		// get the nutritional information from text
 	})
 
 	// ** REQUESTS REQUIRE AUTH **
